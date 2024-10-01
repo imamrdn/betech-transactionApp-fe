@@ -330,69 +330,92 @@ const Transactions = () => {
       )}
 
       {/* Displaying Transactions */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Description</th>
-              <th className="py-2 px-4 border-b">Type</th>
-              <th className="py-2 px-4 border-b">Amount</th>
-              <th className="py-2 px-4 border-b">Date</th>
-              <th className="py-2 px-4 border-b">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.length === 0 ? (
+      <div className="mt-5">
+        <div className="flex justify-between max-w-5xl m-4 ">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-700 rounded-lg bg-white shadow-md">
+            <thead className="text-xs text-gray-800 uppercase bg-gray-200">
               <tr>
-                <td colSpan="5" className="py-4 text-center">
-                  No transactions available.
-                </td>
+                <th scope="col" className="px-6 py-3">
+                  Description
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Type
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Amount
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Actions
+                </th>
               </tr>
-            ) : (
-              transactions.map((transaction) => (
-                <tr key={transaction.id}>
-                  <td className="py-2 px-4 border-b">
-                    {transaction.description}
-                  </td>
-                  <td className="py-2 px-4 border-b">{transaction.type}</td>
-                  <td className="py-2 px-4 border-b">{transaction.amount}</td>
-                  <td className="py-2 px-4 border-b">
-                    {new Date(transaction.date).toLocaleDateString()}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    <div className="relative">
-                      <button
-                        onClick={() => togglePopover(transaction.id)}
-                        className="text-gray-500 hover:text-gray-900 focus:outline-none"
-                      >
-                        <FaEllipsisV />
-                      </button>
-                      {popoverVisible === transaction.id && (
-                        <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-300 rounded shadow-lg">
-                          <button
-                            onClick={() => handleEdit(transaction.id)}
-                            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(transaction.id)}
-                            className="block px-4 py-2 text-red-600 hover:bg-red-100 w-full text-left"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      )}
-                    </div>
+            </thead>
+            <tbody>
+              {transactions.length === 0 ? (
+                <tr className="odd:bg-white even:bg-gray-50 border-b">
+                  <td colSpan="5" className="py-4 text-center text-gray-500">
+                    No transactions available.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                transactions.map((transaction) => (
+                  <tr
+                    key={transaction.id}
+                    className="odd:bg-white even:bg-gray-50 border-b"
+                  >
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                    >
+                      {transaction.description}
+                    </th>
+                    <td className="px-6 py-4">{transaction.type}</td>
+                    <td className="px-6 py-4">
+                      Rp.{" "}
+                      {new Intl.NumberFormat("id-ID").format(
+                        transaction.amount
+                      )}
+                    </td>
+                    <td className="px-6 py-4">
+                      {new Date(transaction.date).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="relative">
+                        <button
+                          onClick={() => togglePopover(transaction.id)}
+                          className="text-gray-500 hover:text-gray-900 focus:outline-none"
+                        >
+                          <FaEllipsisV />
+                        </button>
+                        {popoverVisible === transaction.id && (
+                          <div className="fixed right-24 w-32 bg-white border border-gray-300 rounded shadow-lg">
+                            <button
+                              onClick={() => handleEdit(transaction.id)}
+                              className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(transaction.id)}
+                              className="block px-4 py-2 text-red-600 hover:bg-red-100 w-full text-left"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
 
-      {error && <div className="mt-4 text-red-600">{error}</div>}
+        {error && <div className="mt-4 text-red-600">{error}</div>}
+      </div>
     </div>
   );
 };
