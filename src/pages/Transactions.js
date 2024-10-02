@@ -212,7 +212,7 @@ const Transactions = () => {
                       id="type"
                       defaultValue={
                         currentTransaction ? currentTransaction.type : "expense"
-                      } // Set default value to "expense"
+                      }
                       required
                       className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full"
                     >
@@ -307,20 +307,20 @@ const Transactions = () => {
               </div>
               <div className="p-4">
                 <p className="text-gray-700">
-                  Apakah Anda yakin ingin menghapus transaksi ini?
+                  Are you sure you want to delete this transaction?
                 </p>
                 <div className="flex justify-end mt-4">
                   <button
                     className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
                     onClick={confirmDelete}
                   >
-                    Hapus
+                    Confirm
                   </button>
                   <button
                     className="px-4 py-2 text-gray-500 bg-gray-200 rounded-lg hover:bg-gray-300 ml-2"
                     onClick={() => setDeleteModalVisible(false)}
                   >
-                    Batal
+                    Cancel
                   </button>
                 </div>
               </div>
@@ -371,12 +371,23 @@ const Transactions = () => {
                     >
                       {transaction.description}
                     </th>
-                    <td className="px-6 py-4">{transaction.type}</td>
+                    <td className="flex items-center px-6 py-4">
+                      <button
+                        type="button"
+                        className={`py-1 px-2 text-xs font-medium text-center text-gray-600 rounded-lg ${
+                          transaction.type === "income"
+                            ? "border-2 border-emerald-600"
+                            : "border-2 border-rose-700"
+                        }`}
+                      >
+                        {transaction.type === "income" ? "Income" : "Expense"}
+                      </button>
+                    </td>
                     <td className="px-6 py-4">
-                      Rp.{" "}
-                      {new Intl.NumberFormat("id-ID").format(
-                        transaction.amount
-                      )}
+                      {new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(transaction.amount)}
                     </td>
                     <td className="px-6 py-4">
                       {new Date(transaction.date).toLocaleDateString()}
@@ -390,7 +401,7 @@ const Transactions = () => {
                           <FaEllipsisV />
                         </button>
                         {popoverVisible === transaction.id && (
-                          <div className="fixed right-24 w-32 bg-white border border-gray-300 rounded shadow-lg">
+                          <div className="fixed right-20 w-32 bg-white border border-gray-300 rounded shadow-lg">
                             <button
                               onClick={() => handleEdit(transaction.id)}
                               className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"

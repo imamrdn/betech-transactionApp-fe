@@ -32,6 +32,7 @@ const Login = () => {
       );
 
       localStorage.setItem("x-access-token", response.data.token);
+      localStorage.setItem("fullname", response.data.data.user.fullname);
       navigate("/dashboard");
     } catch (error) {
       setError(error.response ? error.response.data.message : "Login failed");
@@ -46,7 +47,7 @@ const Login = () => {
         </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white p-10 rounded-xl shadow-md">
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
